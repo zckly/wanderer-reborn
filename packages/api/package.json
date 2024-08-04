@@ -22,8 +22,14 @@
     "@acme/auth": "workspace:*",
     "@acme/db": "workspace:*",
     "@acme/validators": "workspace:*",
+    "@ai-sdk/anthropic": "^0.0.28",
+    "@ai-sdk/openai": "^0.0.35",
     "@trpc/server": "11.0.0-rc.441",
+    "@xmldom/xmldom": "^0.8.10",
+    "ai": "^3.2.17",
+    "fast-xml-parser": "^4.4.0",
     "superjson": "2.2.1",
+    "unsplash-js": "^7.0.19",
     "zod": "catalog:"
   },
   "devDependencies": {
