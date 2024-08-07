@@ -12,14 +12,8 @@ import {
 } from "@acme/ui/sheet";
 import { Textarea } from "@acme/ui/textarea";
 
-export const BackgroundSheet = ({
-  background,
-  setBackground,
-}: {
-  background: string;
-  setBackground: (background: string) => void;
-}) => {
-  const [input, setInput] = useState(background);
+export const SettingsSheet = ({}: {}) => {
+  const [input, setInput] = useState("");
 
   return (
     <Sheet>
@@ -32,7 +26,7 @@ export const BackgroundSheet = ({
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Change background</SheetTitle>
+          <SheetTitle>Settings</SheetTitle>
         </SheetHeader>
         <div className="mt-4">
           <Textarea
@@ -44,7 +38,7 @@ export const BackgroundSheet = ({
         <SheetFooter>
           <Button
             onClick={() => {
-              setBackground(input);
+              // TODO: Save settings
             }}
           >
             Save

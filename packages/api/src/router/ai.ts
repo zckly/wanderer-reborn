@@ -1,6 +1,6 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import type { CoreAssistantMessage, CoreUserMessage } from "ai";
-import { createOpenAI } from "@ai-sdk/openai";
+import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { z } from "zod";
 
@@ -10,14 +10,14 @@ import {
 } from "../lib/prompts/initialSimulationPrompt";
 import { publicProcedure } from "../trpc";
 
-const fireworks = createOpenAI({
-  apiKey: process.env.FIREWORKS_API_KEY ?? "",
-  baseURL: "https://api.fireworks.ai/inference/v1",
-});
+// const fireworks = createOpenAI({
+//   apiKey: process.env.FIREWORKS_API_KEY ?? "",
+//   baseURL: "https://api.fireworks.ai/inference/v1",
+// });
 
-const llama3Model = fireworks(
-  "accounts/fireworks/models/llama-v3p1-405b-instruct",
-);
+// const llama3Model = fireworks(
+//   "accounts/fireworks/models/llama-v3p1-405b-instruct",
+// );
 
 export const aiRouter = {
   generateDecisionNodes: publicProcedure
@@ -32,7 +32,8 @@ export const aiRouter = {
       const prompt = initialSimulationPromptV2(userBackground, decision);
       const { text } = await generateText({
         // model: anthropic("claude-3-5-sonnet-20240620"),
-        model: llama3Model,
+        // model: llama3Model,
+        model: openai("gpt-4o-mini"),
         prompt,
         temperature: 1,
       });
@@ -76,7 +77,8 @@ export const aiRouter = {
       console.log("Generating text...");
       const { text } = await generateText({
         // model: anthropic("claude-3-5-sonnet-20240620"),
-        model: llama3Model,
+        model: openai("gpt-4o-mini"),
+        // model: llama3Model,
         // model: openai("gpt-4o"),
         messages: messages.map((m) => ({
           role: m.role,

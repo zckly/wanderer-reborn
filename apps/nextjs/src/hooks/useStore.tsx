@@ -6,12 +6,12 @@ import type { AppState } from "./store-types";
 import { sarahBackground } from "~/lib/data/sarahBackground";
 
 const initialNodes: Node[] = [
-  {
-    id: "1",
-    type: "root",
-    data: { label: "You (Today)" },
-    position: { x: 0, y: 0 },
-  },
+  // {
+  //   id: "1",
+  //   type: "root",
+  //   data: { label: "Start" },
+  //   position: { x: 0, y: 0 },
+  // },
   {
     id: "2",
     type: "addDecision",
@@ -21,12 +21,12 @@ const initialNodes: Node[] = [
 ];
 
 const initialEdges: Edge[] = [
-  {
-    id: "e1-2",
-    source: "1",
-    target: "2",
-    animated: true,
-  },
+  // {
+  //   id: "e1-2",
+  //   source: "1",
+  //   target: "2",
+  //   animated: true,
+  // },
 ];
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions

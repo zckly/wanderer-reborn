@@ -8,18 +8,23 @@ import { useShallow } from "zustand/react/shallow";
 
 import type { AppState } from "~/hooks/store-types";
 import useStore from "~/hooks/useStore";
-import AddDecisionNode from "./AddDecisionNode";
+import { OnboardingDialog } from "../onboarding/OnboardingDialog";
 import Logo from "./canvas/Logo";
-import ContextNode from "./ContextNode";
-import EventNode from "./EventNode";
-import MicroDecisionNode from "./MicroDecisionNode.tsx";
-import OutcomeNode from "./OutcomeNode";
-import RootNode from "./RootNode";
+import { SettingsSheet } from "./SettingsSheet";
+import AddDecisionNode from "./xyflow/custom-nodes/AddDecisionNode";
+import ContextNode from "./xyflow/custom-nodes/ContextNode";
+import CustomOptionNode from "./xyflow/custom-nodes/CustomOptionNode";
+import MicroDecisionNode from "./xyflow/custom-nodes/MicroDecisionNode.tsx";
+import OptionNode from "./xyflow/custom-nodes/OptionNode";
+import OutcomeNode from "./xyflow/custom-nodes/OutcomeNode";
+import RootNode from "./xyflow/custom-nodes/RootNode";
+import DevTools from "./xyflow/debugging/DevTools";
 
 const nodeTypes = {
   root: RootNode,
   context: ContextNode,
-  event: EventNode,
+  option: OptionNode,
+  customOption: CustomOptionNode,
   addDecision: AddDecisionNode,
   microDecision: MicroDecisionNode,
   outcome: OutcomeNode,
@@ -57,10 +62,16 @@ const MapView = () => {
         proOptions={{ hideAttribution: true }}
       >
         <MiniMap position={"bottom-left"} />
+        <DevTools />
       </ReactFlow>
       <div className="absolute left-4 top-4">
         <Logo />
       </div>
+      <div className="absolute right-4 top-4">
+        <SettingsSheet />
+      </div>
+
+      <OnboardingDialog open />
     </div>
   );
 };

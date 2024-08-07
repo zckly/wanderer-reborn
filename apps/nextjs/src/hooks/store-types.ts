@@ -24,3 +24,10 @@ export interface AppState {
   centerPosition: { x: number; y: number };
   setCenterPosition: (centerPosition: { x: number; y: number }) => void;
 }
+
+export interface OnboardingState {
+  onboardingStep: number;
+  setOnboardingStep: (onboardingStep: number) => void;
+  onboardingCompleted: boolean;
+  setOnboardingCompleted: (onboardingCompleted: boolean) => void;
+}

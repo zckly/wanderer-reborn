@@ -15,11 +15,13 @@ const TRANSITION = {
 };
 
 export default function MotionPopover({
-  onAddDecisionClick,
+  onSubmit,
   isGenerating,
+  mode = "decision",
 }: {
-  onAddDecisionClick: (decision: string) => void;
+  onSubmit: (decision: string) => void;
   isGenerating: boolean;
+  mode?: "decision" | "option";
 }) {
   const uniqueId = useId();
   const formContainerRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,7 @@ export default function MotionPopover({
           key="button"
           layoutId={`popover-${uniqueId}`}
           className={cn(
-            "flex h-10 w-72 items-center justify-center border border-dotted border-zinc-900/10 bg-white px-4 py-3 text-zinc-950 dark:border-zinc-50/10 dark:bg-zinc-700 dark:text-zinc-50",
+            "flex h-10 w-[360px] items-center justify-center border border-dotted border-zinc-900/10 bg-white px-4 py-3 text-zinc-950 dark:border-zinc-50/10 dark:bg-zinc-700 dark:text-zinc-50",
           )}
           style={{
             borderRadius: 8,
@@ -69,10 +71,10 @@ export default function MotionPopover({
         >
           <motion.span
             layoutId={`popover-label-${uniqueId}`}
-            className="text-sm"
+            className="text-xs text-zinc-500"
           >
             {isGenerating ? (
-              <div className="flex items-center gap-1">
+              <div className={"flex items-center gap-1"}>
                 <svg
                   className="mr-2 h-4 w-4 animate-spin text-zinc-500"
                   xmlns="http://www.w3.org/2000/svg"
@@ -95,8 +97,10 @@ export default function MotionPopover({
                 </svg>
                 Thinking...
               </div>
+            ) : mode === "decision" ? (
+              "(Add decision)"
             ) : (
-              "Add decision"
+              "(Add option)"
             )}
           </motion.span>
         </motion.button>
@@ -124,12 +128,14 @@ export default function MotionPopover({
                   style={{
                     opacity: note ? 0 : 1,
                   }}
-                  className="absolute left-4 top-3 select-none text-sm text-zinc-500 dark:text-zinc-400"
+                  className="absolute left-4 top-3 select-none text-xs text-zinc-500 dark:text-zinc-400"
                 >
-                  Add decision
+                  {mode === "decision"
+                    ? "Add future decision"
+                    : "Add your own option"}
                 </motion.span>
                 <textarea
-                  className="h-full w-full resize-none rounded-md bg-transparent px-4 py-3 text-sm outline-none"
+                  className="h-full w-full resize-none rounded-md bg-transparent px-4 py-3 text-xs outline-none"
                   autoFocus
                   onChange={(e) => setNote(e.target.value)}
                 />
@@ -146,15 +152,17 @@ export default function MotionPopover({
                     />
                   </button>
                   <button
-                    className="relative ml-1 flex h-8 shrink-0 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 bg-transparent px-2 text-sm font-semibold text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98] dark:border-zinc-50/10 dark:text-zinc-50 dark:hover:bg-zinc-800"
+                    className="relative ml-1 flex h-8 shrink-0 scale-100 select-none appearance-none items-center justify-center rounded-lg border border-zinc-950/10 bg-transparent px-2 text-xs font-semibold text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:ring-2 active:scale-[0.98] dark:border-zinc-50/10 dark:text-zinc-50 dark:hover:bg-zinc-800"
                     type="button"
-                    aria-label="Add decision"
+                    aria-label={
+                      mode === "decision" ? "Add decision" : "Add option"
+                    }
                     onClick={() => {
-                      onAddDecisionClick(note ?? "");
+                      onSubmit(note ?? "");
                       closeMenu();
                     }}
                   >
-                    Add decision
+                    Add
                   </button>
                 </div>
               </form>
