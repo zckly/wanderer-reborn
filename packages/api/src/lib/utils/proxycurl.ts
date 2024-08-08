@@ -106,6 +106,7 @@ export async function fetchLinkedInProfile(
 
   const url = new URL("https://nubela.co/proxycurl/api/v2/linkedin");
   Object.keys(params).forEach((key) =>
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     url.searchParams.append(key, params[key]!),
   );
 
