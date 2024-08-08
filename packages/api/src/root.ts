@@ -1,11 +1,11 @@
 import { aiRouter } from "./router/ai";
-import { authRouter } from "./router/auth";
+import { onboardingRouter } from "./router/onboarding";
 import { postRouter } from "./router/post";
 import { createTRPCRouter } from "./trpc";
 
 export const appRouter = createTRPCRouter({
   ai: aiRouter,
-  auth: authRouter,
+  onboarding: onboardingRouter,
   post: postRouter,
 });
 

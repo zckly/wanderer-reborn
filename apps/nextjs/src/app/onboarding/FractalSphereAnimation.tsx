@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 const FractalSphereAnimation: React.FC = () => {
   const [frame, setFrame] = useState<number>(0);
-  const size = 80; // 80 characters wide and tall
-  const sphereRadius = 33; // Increased from 25
+  const size = 120; // Increased to 250 characters wide and tall
+  const sphereRadius = 53; // Increased proportionally from 33
 
   const generateFractal = (depth: number): string => {
     if (depth === 0) return "*";
@@ -40,7 +40,7 @@ const FractalSphereAnimation: React.FC = () => {
     y: number,
     z: number,
   ): { x: number; y: number } => {
-    const perspective = 133; // Increased from 100
+    const perspective = 415; // Increased proportionally from 133
     const scale: number = perspective / (perspective + z);
     return {
       x: Math.floor(x * scale + size / 2),
@@ -51,22 +51,24 @@ const FractalSphereAnimation: React.FC = () => {
   const createFrame = (): string => {
     const angleX: number = frame * 0.02;
     const angleY: number = frame * 0.03;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const display: string[][] = Array(size)
       .fill(null)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       .map(() => Array(size).fill(" "));
 
-    const fractal: string = generateFractal(3);
-    const fractalSize = 27;
+    const fractal: string = generateFractal(4); // Increased depth for more detail
+    const fractalSize = 81; // 3^4 for the new fractal depth
 
-    for (let phi = 0; phi < Math.PI; phi += Math.PI / 20) {
-      // Increased from 15 to 20 for more detail
-      for (let theta = 0; theta < Math.PI * 2; theta += Math.PI / 20) {
+    for (let phi = 0; phi < Math.PI; phi += Math.PI / 60) {
+      // Increased detail
+      for (let theta = 0; theta < Math.PI * 2; theta += Math.PI / 60) {
         const x: number = sphereRadius * Math.sin(phi) * Math.cos(theta);
         const y: number = sphereRadius * Math.sin(phi) * Math.sin(theta);
         const z: number = sphereRadius * Math.cos(phi);
 
-        const waveX: number = Math.sin(phi * 5 + frame * 0.1) * 4; // Increased from 3 to 4
-        const waveY: number = Math.cos(theta * 5 + frame * 0.1) * 4;
+        const waveX: number = Math.sin(phi * 5 + frame * 0.1) * 12; // Increased wave amplitude
+        const waveY: number = Math.cos(theta * 5 + frame * 0.1) * 12;
 
         const rotated = rotatePoint(x + waveX, y + waveY, z, angleX, angleY);
         const projected = project(rotated.x, rotated.y, rotated.z);
@@ -105,13 +107,13 @@ const FractalSphereAnimation: React.FC = () => {
     <pre
       style={{
         fontFamily: "monospace",
-        fontSize: "3px",
-        lineHeight: "2px",
+        fontSize: "4px", // Increased from 3.5px
+        lineHeight: "3px", // Increased from 2px
         whiteSpace: "pre",
         background: "white",
         color: "black",
-        width: "160px",
-        height: "160px",
+        width: "400px", // Increased from 160px
+        height: "400px", // Increased from 160px
         overflow: "hidden",
       }}
     >
