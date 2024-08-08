@@ -2,14 +2,6 @@
 
 > [!NOTE]
 >
-> NextAuth setup now works for Expo app!
-
-> [!NOTE]
->
-> OAuth deployments are now working for preview deployments. Read [deployment guide](https://github.com/t3-oss/create-t3-turbo#auth-proxy) and [check out the source](./apps/auth-proxy) to learn more!
-
-> [!NOTE]
->
 > Due to high demand, this repo now uses the `app` directory with some new experimental features. If you want to use the more traditional `pages` router, [check out the repo before the update](https://github.com/t3-oss/create-t3-turbo/tree/414aff131ca124573e721f3779df3edb64989fd4).
 
 ## Installation
@@ -37,9 +29,6 @@ It uses [Turborepo](https://turborepo.org) and contains:
 .vscode
   └─ Recommended extensions and settings for VSCode users
 apps
-  ├─ auth-proxy
-  |   ├─ Nitro server to proxy OAuth requests in preview deployments
-  |   └─ Uses Auth.js Core
   ├─ expo
   |   ├─ Expo SDK 51
   |   ├─ React Native using React 18
@@ -120,20 +109,6 @@ pnpm db:push
 
 3. Run `pnpm dev` at the project root folder.
 
-### 3. Configuring Next-Auth to work with Expo
-
-In order to get Next-Auth to work with Expo, you must either:
-
-#### Deploy the Auth Proxy (RECOMMENDED)
-
-In [apps/auth-proxy](./apps/auth-proxy) you can find a Nitro server that proxies OAuth requests. By deploying this and setting the `AUTH_REDIRECT_PROXY_URL` environment variable to the URL of this proxy, you can get OAuth working in preview deployments and development for Expo apps. See more deployment instructions in the [auth proxy README](./apps/auth-proxy/README.md).
-
-By using the proxy server, the Next.js apps will forward any auth requests to the proxy server, which will handle the OAuth flow and then redirect back to the Next.js app. This makes it easy to get OAuth working since you'll have a stable URL that is publically accessible and doesn't change for every deployment and doesn't rely on what port the app is running on. So if port 3000 is taken and your Next.js app starts at port 3001 instead, your auth should still work without having to reconfigure the OAuth provider.
-
-#### Add your local IP to your OAuth provider
-
-You can alternatively add your local IP (e.g. `192.168.x.y:$PORT`) to your OAuth provider. This may not be as reliable as your local IP may change when you change networks. Some OAuth providers may also only support a single callback URL for each app making this approach unviable for some providers (e.g. GitHub).
-
 ### 4a. When it's time to add a new UI component
 
 Run the `ui-add` script to add a new UI component using the interactive `shadcn/ui` CLI:
@@ -191,8 +166,6 @@ Then, there are some environment variables you need to set in order to get OAuth
 
 - For the Next.js app, set `AUTH_REDIRECT_PROXY_URL` to the URL of the auth proxy.
 - For the auth proxy server, set `AUTH_REDIRECT_PROXY_URL` to the same as above, as well as `AUTH_DISCORD_ID`, `AUTH_DISCORD_SECRET` (or the equivalent for your OAuth provider(s)). Lastly, set `AUTH_SECRET` **to the same value as in the Next.js app** for preview environments.
-
-Read more about the setup in [the auth proxy README](./apps/auth-proxy/README.md).
 
 ### Expo
 
