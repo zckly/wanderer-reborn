@@ -12,17 +12,39 @@ function AddDecisionNode() {
   const [isGenerating, setIsGenerating] = useState(false);
   const { mutateAsync: generateDecisionNodes } =
     api.ai.generateDecisionNodes.useMutation();
-  const { nodes, edges, setEdges, setNodes, background, setMessages } =
-    useNodeStore();
+  const { mutateAsync: generateCanvasTitle } =
+    api.ai.generateCanvasTitle.useMutation();
+  const {
+    nodes,
+    edges,
+    setEdges,
+    setNodes,
+    setMessages,
+    workSituation,
+    livingSituation,
+    friendsFamilySituation,
+    interests,
+    setCanvasTitle,
+  } = useNodeStore();
 
   const generateNodes = useCallback(
     async (decision: string) => {
       setIsGenerating(true);
+
       const { context, options, microDecisions, initialMessages } =
         await generateDecisionNodes({
-          userBackground: background,
+          workSituation,
+          livingSituation,
+          friendsFamilySituation,
+          interests,
           decision,
         });
+
+      const { text } = await generateCanvasTitle({
+        context,
+        decision,
+      });
+      setCanvasTitle(text);
 
       setMessages(initialMessages);
       setIsGenerating(false);
@@ -47,13 +69,16 @@ function AddDecisionNode() {
       setEdges([...edges, ...newEdges]);
     },
     [
-      background,
       nodes,
       edges,
       setNodes,
       setEdges,
       setMessages,
       generateDecisionNodes,
+      workSituation,
+      livingSituation,
+      friendsFamilySituation,
+      interests,
     ],
   );
 

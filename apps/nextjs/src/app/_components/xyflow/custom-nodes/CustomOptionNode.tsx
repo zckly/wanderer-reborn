@@ -37,6 +37,7 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
         setSelectedOptions([...selectedOptions, title]);
 
         let rightMostPositionX = 0;
+        let selectedCustomOptionNodeId: string | null = null;
         const groupedNodes = nodes.map((node) => {
           if (node.type === "option") {
             rightMostPositionX = Math.max(rightMostPositionX, node.position.x);
@@ -53,6 +54,7 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
               zIndex: node.data.label === title ? 20 : 0,
             };
           } else if (node.type === "customOption") {
+            selectedCustomOptionNodeId = node.id;
             const optionNode: Node = {
               id: node.id,
               type: "option",
@@ -90,7 +92,7 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
           ...groupedNodes.map((node) => node.position.x),
         );
         const selectedOptionNode = groupedNodes.find(
-          (node) => node.type === "option" && node.data.label === title,
+          (node) => node.id === selectedCustomOptionNodeId,
         );
 
         const { newNodes, newEdges } = createNewNodesAndEdges({
@@ -107,8 +109,6 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
         setEdges([...edges, ...newEdges]);
       } catch (error) {
         console.error("Error in onOptionAdded:", error);
-      } finally {
-        setIsGenerating(false);
       }
     },
     [
@@ -128,7 +128,6 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
     <MotionNodeWrapper rotation={data.rotation}>
       <MotionPopover
         onSubmit={async (userInput) => {
-          setIsGenerating(true);
           try {
             await onOptionAdded({ title: userInput });
           } catch (error) {

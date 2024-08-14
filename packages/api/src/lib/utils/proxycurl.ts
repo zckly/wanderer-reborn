@@ -121,7 +121,7 @@ export async function fetchLinkedInProfile(
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const data: LinkedInProfile = await response.json();
+  const data = (await response.json()) as LinkedInProfile;
 
   return data;
 }

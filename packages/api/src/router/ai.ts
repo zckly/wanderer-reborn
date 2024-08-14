@@ -1,9 +1,11 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import type { CoreAssistantMessage, CoreUserMessage } from "ai";
+import { anthropic } from "@ai-sdk/anthropic";
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { z } from "zod";
 
+import { generateCanvasTitlePrompt } from "../lib/prompts/generateCanvasTitle";
 import {
   initialSimulationPromptV2,
   simulationParser,
@@ -23,21 +25,35 @@ export const aiRouter = {
   generateDecisionNodes: publicProcedure
     .input(
       z.object({
-        userBackground: z.string(),
+        workSituation: z.string(),
+        livingSituation: z.string(),
+        friendsFamilySituation: z.string(),
+        interests: z.string(),
         decision: z.string(),
       }),
     )
     .mutation(async ({ input }) => {
-      const { userBackground, decision } = input;
+      const {
+        workSituation,
+        livingSituation,
+        friendsFamilySituation,
+        interests,
+        decision,
+      } = input;
+
+      const userBackground = `<work_background>${workSituation}</work_background>
+      <living_background>${livingSituation}</living_background>
+      <friends_family_background>${friendsFamilySituation}</friends_family_background>
+      <interests>${interests}</interests>`;
+
       const prompt = initialSimulationPromptV2(userBackground, decision);
       const { text } = await generateText({
-        // model: anthropic("claude-3-5-sonnet-20240620"),
+        model: anthropic("claude-3-5-sonnet-20240620"),
         // model: llama3Model,
-        model: openai("gpt-4o-mini"),
+        // model: openai("gpt-4o-mini"),
         prompt,
         temperature: 1,
       });
-      console.log({ text });
       const { context, microDecisions, options } = simulationParser(text);
 
       const initialMessages = [
@@ -72,12 +88,9 @@ export const aiRouter = {
     )
     .mutation(async ({ input }) => {
       const { messages } = input;
-      console.log("Input messages:", { messages });
-
-      console.log("Generating text...");
       const { text } = await generateText({
-        // model: anthropic("claude-3-5-sonnet-20240620"),
-        model: openai("gpt-4o-mini"),
+        model: anthropic("claude-3-5-sonnet-20240620"),
+        // model: openai("gpt-4o-mini"),
         // model: llama3Model,
         // model: openai("gpt-4o"),
         messages: messages.map((m) => ({
@@ -86,9 +99,6 @@ export const aiRouter = {
         })) as (CoreUserMessage | CoreAssistantMessage)[],
         temperature: 1,
       });
-      console.log("Generated text:", text);
-
-      console.log("Parsing outcome...");
       const { context, microDecisions, options } = simulationParser(text);
       console.log("Parsed outcome:", {
         context,
@@ -96,7 +106,6 @@ export const aiRouter = {
         options,
       });
 
-      console.log("Returning result...");
       return {
         text,
         context,
@@ -109,6 +118,27 @@ export const aiRouter = {
             content: text,
           },
         ],
+      };
+    }),
+  generateCanvasTitle: publicProcedure
+    .input(
+      z.object({
+        context: z.string(),
+        decision: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { context, decision } = input;
+
+      const prompt = generateCanvasTitlePrompt({ context, decision });
+      const { text } = await generateText({
+        model: openai("gpt-4o-mini"),
+        prompt,
+        temperature: 1,
+      });
+
+      return {
+        text,
       };
     }),
 } satisfies TRPCRouterRecord;

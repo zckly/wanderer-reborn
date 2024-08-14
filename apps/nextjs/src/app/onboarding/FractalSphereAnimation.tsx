@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 const FractalSphereAnimation: React.FC = () => {
   const [frame, setFrame] = useState<number>(0);
-  const size = 120; // Increased to 250 characters wide and tall
-  const sphereRadius = 53; // Increased proportionally from 33
+  const size = 100; // Increased to 250 characters wide and tall
+  const sphereRadius = 40; // Increased proportionally from 33
 
   const generateFractal = (depth: number): string => {
     if (depth === 0) return "*";
@@ -107,13 +107,13 @@ const FractalSphereAnimation: React.FC = () => {
     <pre
       style={{
         fontFamily: "monospace",
-        fontSize: "4px", // Increased from 3.5px
-        lineHeight: "3px", // Increased from 2px
+        fontSize: "3px", // Increased from 3.5px
+        lineHeight: "2.5px", // Increased from 2px
         whiteSpace: "pre",
         background: "white",
         color: "black",
-        width: "400px", // Increased from 160px
-        height: "400px", // Increased from 160px
+        width: "300px", // Increased from 160px
+        height: "300px", // Increased from 160px
         overflow: "hidden",
       }}
     >
