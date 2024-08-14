@@ -262,9 +262,6 @@ importers:
       superjson:
         specifier: 2.2.1
         version: 2.2.1
-      usehooks-ts:
-        specifier: ^3.1.0
-        version: 3.1.0(react@18.3.1)
       zod:
         specifier: 'catalog:'
         version: 3.23.8
@@ -548,7 +545,7 @@ importers:
         version: 7.34.3(eslint@9.6.0)
       eslint-plugin-react-hooks:
         specifier: rc
-        version: 5.1.0-rc-68dbd84b-20240812(eslint@9.6.0)
+        version: 5.1.0-rc-49496d49-20240814(eslint@9.6.0)
       eslint-plugin-turbo:
         specifier: ^2.0.6
         version: 2.0.6(eslint@9.6.0)
@@ -4205,8 +4202,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
 
-  eslint-plugin-react-hooks@5.1.0-rc-68dbd84b-20240812:
-    resolution: {integrity: sha512-4TYlNy88XzkL2JYCIHjQv+sJ7tQuqkRNeTp0py78arVCVXK4I8MA/Z3DffxH5KSeC7PcagmBnVHww7tEpbToZA==}
+  eslint-plugin-react-hooks@5.1.0-rc-49496d49-20240814:
+    resolution: {integrity: sha512-A5hwoU0WxNLjuPa9vH0+4Sh+GOcfBIgZJ0cbwu9UECyD8VbIv+N3all4yyHqFQqcz10qzoHHLSuRFE4O7AC5PQ==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -7644,12 +7641,6 @@ packages:
     resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
-
-  usehooks-ts@3.1.0:
-    resolution: {integrity: sha512-bBIa7yUyPhE1BCc0GmR96VU/15l/9gP1Ch5mYdLcFBaFGQsdmXkvjV0TtOqW1yUd6VjIwDunm+flSciCQXujiw==}
-    engines: {node: '>=16.15.0'}
-    peerDependencies:
-      react: ^16.8.0  || ^17 || ^18
 
   utf-8-validate@6.0.4:
     resolution: {integrity: sha512-xu9GQDeFp+eZ6LnCywXN/zBancWvOpUMzgjLPSjy4BRHSmTelvn2E0DG0o1sTiw5hkCKBHo8rwSKncfRfv2EEQ==}
@@ -12315,7 +12306,7 @@ snapshots:
       safe-regex-test: 1.0.3
       string.prototype.includes: 2.0.0
 
-  eslint-plugin-react-hooks@5.1.0-rc-68dbd84b-20240812(eslint@9.6.0):
+  eslint-plugin-react-hooks@5.1.0-rc-49496d49-20240814(eslint@9.6.0):
     dependencies:
       eslint: 9.6.0
 
@@ -16388,11 +16379,6 @@ snapshots:
 
   use-sync-external-store@1.2.2(react@18.3.1):
     dependencies:
-      react: 18.3.1
-
-  usehooks-ts@3.1.0(react@18.3.1):
-    dependencies:
-      lodash.debounce: 4.0.8
       react: 18.3.1
 
   utf-8-validate@6.0.4:
