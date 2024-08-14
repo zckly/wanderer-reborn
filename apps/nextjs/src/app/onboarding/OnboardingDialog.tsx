@@ -8,7 +8,6 @@ import type { OnboardingState } from "~/hooks/store-types";
 import useOnboardingStore from "~/hooks/useOnboardingStore";
 import FractalSphereAnimation from "./FractalSphereAnimation";
 import OnboardingHeader from "./OnboardingHeader";
-import ImportStep from "./steps/ImportStep";
 
 const selector = (state: OnboardingState) => ({
   onboardingStep: state.onboardingStep,
@@ -23,9 +22,7 @@ export function OnboardingDialog({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
-  const { onboardingStep, setOnboardingCompleted } = useOnboardingStore(
-    useShallow(selector),
-  );
+  const { setOnboardingCompleted } = useOnboardingStore(useShallow(selector));
 
   const handleGetStarted = () => {
     setOnboardingCompleted(true);
@@ -38,39 +35,35 @@ export function OnboardingDialog({
         hideCloseIcon
         className="h-[480px] w-full font-mono sm:max-w-[480px] md:max-w-[580px]"
       >
-        {onboardingStep === 0 ? (
-          <>
-            <OnboardingHeader
-              title="wanderer"
-              description="a future life simulator"
-            />
-            <div className="mx-auto py-0 text-center">
-              <FractalSphereAnimation />
+        <>
+          <OnboardingHeader
+            title="wanderer"
+            description="a future life simulator"
+          />
+          <div className="mx-auto py-0 text-center">
+            <FractalSphereAnimation />
+          </div>
+          <DialogFooter className="items-center !justify-between">
+            <div className="flex flex-row gap-1 text-sm">
+              <Link
+                className="hover:underline"
+                href="https://github.com/acme-labs/wanderer"
+              >
+                about
+              </Link>
+              <div>/</div>
+              <Link
+                className="hover:underline"
+                href="https://twitter.com/acme_labs"
+              >
+                github
+              </Link>
             </div>
-            <DialogFooter className="items-center !justify-between">
-              <div className="flex flex-row gap-1 text-sm">
-                <Link
-                  className="hover:underline"
-                  href="https://github.com/acme-labs/wanderer"
-                >
-                  about
-                </Link>
-                <div>/</div>
-                <Link
-                  className="hover:underline"
-                  href="https://twitter.com/acme_labs"
-                >
-                  github
-                </Link>
-              </div>
-              <div className="flex flex-row gap-2">
-                <Button onClick={handleGetStarted}>get started</Button>
-              </div>
-            </DialogFooter>
-          </>
-        ) : (
-          <ImportStep />
-        )}
+            <div className="flex flex-row gap-2">
+              <Button onClick={handleGetStarted}>get started</Button>
+            </div>
+          </DialogFooter>
+        </>
       </DialogContent>
     </Dialog>
   );

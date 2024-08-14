@@ -18,7 +18,6 @@ export const env = createEnv({
     POSTGRES_URL: z.string().url(),
     OPENAI_API_KEY: z.string().min(1),
     ANTHROPIC_API_KEY: z.string().min(1),
-    PROXYCURL_API_KEY: z.string().min(1),
   },
 
   /**
