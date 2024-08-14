@@ -79,6 +79,8 @@ function AddDecisionNode() {
       livingSituation,
       friendsFamilySituation,
       interests,
+      setCanvasTitle,
+      generateCanvasTitle,
     ],
   );
 

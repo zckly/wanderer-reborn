@@ -1,4 +1,4 @@
-import type { Edge, Node } from "@xyflow/react";
+import type { Connection, Edge, Node } from "@xyflow/react";
 import { useShallow } from "zustand/react/shallow";
 
 import type { AppState, Canvas } from "./store-types";
@@ -38,7 +38,7 @@ export interface NodeStoreState {
   setCanvasTitle: (canvasTitle: string) => void;
   nodes: Node[];
   edges: Edge[];
-  onConnect: (params: any) => void;
+  onConnect: (params: Connection) => void;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   messages: { role: string; content: string }[];

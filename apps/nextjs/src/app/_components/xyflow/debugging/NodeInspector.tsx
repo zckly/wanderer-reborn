@@ -17,8 +17,8 @@ export default function NodeInspector() {
             <NodeInfo
               key={node.id}
               id={node.id}
-              selected={node.selected}
-              type={node.type || "default"}
+              selected={node.selected ?? false}
+              type={node.type ?? "default"}
               x={x}
               y={y}
               width={width}
