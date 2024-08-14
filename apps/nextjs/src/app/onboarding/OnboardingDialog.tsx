@@ -1,40 +1,69 @@
-import { GithubIcon } from "lucide-react";
+import Link from "next/link";
+import { useShallow } from "zustand/react/shallow";
 
 import { Button } from "@acme/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@acme/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "@acme/ui/dialog";
 
+import type { OnboardingState } from "~/hooks/store-types";
+import useOnboardingStore from "~/hooks/useOnboardingStore";
 import FractalSphereAnimation from "./FractalSphereAnimation";
+import OnboardingHeader from "./OnboardingHeader";
 
-export function OnboardingDialog({ open }: { open: boolean }) {
+const selector = (state: OnboardingState) => ({
+  onboardingStep: state.onboardingStep,
+  setOnboardingStep: state.setOnboardingStep,
+  setOnboardingCompleted: state.setOnboardingCompleted,
+});
+
+export function OnboardingDialog({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) {
+  const { setOnboardingCompleted } = useOnboardingStore(useShallow(selector));
+
+  const handleGetStarted = () => {
+    setOnboardingCompleted(true);
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open}>
-      <DialogContent className="w-full font-mono sm:max-w-[480px]">
-        <DialogHeader>
-          <DialogTitle>wanderer</DialogTitle>
-          <DialogDescription>a future life simulator</DialogDescription>
-        </DialogHeader>
-        <div className="mx-auto py-8 text-center">
-          <FractalSphereAnimation />
-        </div>
-        <DialogFooter className="!justify-between">
-          <div>
-            <Button variant={"ghost"} size="icon">
-              <GithubIcon size={20} />
-            </Button>
+      <DialogContent
+        hideCloseIcon
+        className="h-[480px] w-full font-mono sm:max-w-[480px] md:max-w-[580px]"
+      >
+        <>
+          <OnboardingHeader
+            title="wanderer"
+            description="a future life simulator"
+          />
+          <div className="mx-auto py-0 text-center">
+            <FractalSphereAnimation />
           </div>
-          <div className="flex flex-row gap-2">
-            <Button variant="outline">Log in</Button>
-
-            <Button type="submit">Get started</Button>
-          </div>
-        </DialogFooter>
+          <DialogFooter className="items-center !justify-between">
+            <div className="flex flex-row gap-1 text-sm">
+              <Link
+                className="hover:underline"
+                href="https://github.com/acme-labs/wanderer"
+              >
+                about
+              </Link>
+              <div>/</div>
+              <Link
+                className="hover:underline"
+                href="https://twitter.com/acme_labs"
+              >
+                github
+              </Link>
+            </div>
+            <div className="flex flex-row gap-2">
+              <Button onClick={handleGetStarted}>get started</Button>
+            </div>
+          </DialogFooter>
+        </>
       </DialogContent>
     </Dialog>
   );

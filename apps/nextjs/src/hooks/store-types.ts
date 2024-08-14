@@ -7,7 +7,18 @@ import type {
 } from "@xyflow/react";
 
 export type AppNode = Node;
+export interface Canvas {
+  title: string;
+  nodes: AppNode[];
+  edges: Edge[];
+  messages: { role: string; content: string }[];
+  selectedOptions: string[];
+}
+
 export interface AppState {
+  canvasTitle: string;
+  setCanvasTitle: (canvasTitle: string) => void;
+
   nodes: AppNode[];
   edges: Edge[];
   onNodesChange: OnNodesChange<AppNode>;
@@ -15,14 +26,22 @@ export interface AppState {
   onConnect: OnConnect;
   setNodes: (nodes: AppNode[]) => void;
   setEdges: (edges: Edge[]) => void;
-  background: string;
-  setBackground: (background: string) => void;
   messages: { role: string; content: string }[];
   setMessages: (messages: { role: string; content: string }[]) => void;
   selectedOptions: string[];
   setSelectedOptions: (selectedOptions: string[]) => void;
-  centerPosition: { x: number; y: number };
-  setCenterPosition: (centerPosition: { x: number; y: number }) => void;
+
+  previousCanvases: Canvas[];
+  setPreviousCanvases: (previousCanvases: Canvas[]) => void;
+
+  workSituation: string;
+  setWorkSituation: (workSituation: string) => void;
+  livingSituation: string;
+  setLivingSituation: (livingSituation: string) => void;
+  friendsAndFamilySituation: string;
+  setFriendsAndFamilySituation: (friendsAndFamilySituation: string) => void;
+  interests: string;
+  setInterests: (interests: string) => void;
 }
 
 export interface OnboardingState {
@@ -30,4 +49,10 @@ export interface OnboardingState {
   setOnboardingStep: (onboardingStep: number) => void;
   onboardingCompleted: boolean;
   setOnboardingCompleted: (onboardingCompleted: boolean) => void;
+  currentRole: string;
+  setCurrentRole: (currentRole: string) => void;
+  eduHistory: string;
+  setEduHistory: (eduHistory: string) => void;
+  workHistory: string;
+  setWorkHistory: (workHistory: string) => void;
 }

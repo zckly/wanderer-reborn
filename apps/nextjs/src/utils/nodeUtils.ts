@@ -63,12 +63,11 @@ export const createNewNodesAndEdges = ({
 
   const newEdges: Edge[] = [
     // Only add this edge if it's not the initial decision
-    ...(!isInitialDecision
+    ...(!isInitialDecision && selectedOptionNode
       ? [
           {
             id: `eoption-node-outcome-option-${nodes.length + 1}`,
-            source:
-              selectedOptionNode?.id ?? `decision-node-${nodes.length + 1}`,
+            source: selectedOptionNode.id,
             target: `decision-node-${nodes.length}`,
             animated: true,
           },
@@ -87,7 +86,7 @@ export const createNewNodesAndEdges = ({
       animated: true,
     })),
     {
-      id: "e3-custom-option",
+      id: `eoption-node-custom-option-${nodes.length + 2 + options.length}`,
       source: `micro-decision-node-${nodes.length + 1}`,
       target: customOptionNodeId,
       animated: true,

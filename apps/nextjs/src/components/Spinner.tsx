@@ -1,7 +1,15 @@
-export default function Spinner({ size }: { size: number }) {
+import { cn } from "@acme/ui";
+
+export default function Spinner({
+  size,
+  className,
+}: {
+  size: number;
+  className?: string;
+}) {
   return (
     <svg
-      className={`animate-spin stroke-zinc-500`}
+      className={cn("animate-spin stroke-zinc-50", className)}
       style={{ width: `${size}px`, height: `${size}px` }}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

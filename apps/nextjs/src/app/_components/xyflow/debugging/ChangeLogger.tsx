@@ -21,12 +21,12 @@ function ChangeInfo({ change }: ChangeInfoProps) {
       <div>
         {type === "add" ? JSON.stringify(change.item, null, 2) : null}
         {type === "dimensions"
-          ? `dimensions: ${change.dimensions.width} × ${change.dimensions.height}`
+          ? `dimensions: ${change.dimensions?.width} × ${change.dimensions?.height}`
           : null}
         {type === "position"
-          ? `position: ${change.position.x.toFixed(
+          ? `position: ${change.position?.x.toFixed(
               1,
-            )}, ${change.position.y.toFixed(1)}`
+            )}, ${change.position?.y.toFixed(1)}`
           : null}
         {type === "remove" ? "remove" : null}
         {type === "select" ? (change.selected ? "select" : "unselect") : null}
@@ -56,6 +56,7 @@ export default function ChangeLogger({ limit = 20 }: ChangeLoggerProps) {
     };
 
     store.setState({ onNodesChange: onNodesChangeLogger });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onNodesChange, limit]);
 
   return (

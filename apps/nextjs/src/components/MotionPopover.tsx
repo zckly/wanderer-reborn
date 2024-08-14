@@ -119,7 +119,6 @@ export default function MotionPopover({
                 className="flex h-full flex-col"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  console.log("Add Note");
                 }}
               >
                 <motion.span
