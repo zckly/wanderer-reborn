@@ -4,7 +4,6 @@ import { ArrowRight, EllipsisIcon, XIcon } from "lucide-react";
 import { createPortal } from "react-dom";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import remarkGfm from "remark-gfm";
 
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/button";
@@ -182,8 +181,13 @@ export default function MotionDialog({
                                 {...props}
                               />
                             ),
+                            ul: (props) => (
+                              <ul className="list-disc" {...props} />
+                            ),
+                            li: (props) => (
+                              <li className="ml-2 py-2" {...props} />
+                            ),
                           }}
-                          remarkPlugins={[remarkGfm]}
                           className="mt-4 text-zinc-500 dark:text-zinc-500"
                         >
                           {subtitle}

@@ -50,7 +50,12 @@ function OptionNode({ data }: OptionNodeProps) {
               ...node.data,
               rotation: Math.random() * 2 - 1,
             },
-            zIndex: node.data.label === title ? 20 : 0,
+            zIndex:
+              node.type === "customOption"
+                ? 0
+                : node.data.label === title
+                  ? 20
+                  : 0,
           };
         }
         return node;

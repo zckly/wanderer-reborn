@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
@@ -53,9 +54,10 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             GeistMono.variable,
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="light">
             <TRPCReactProvider>{props.children}</TRPCReactProvider>
             <Toaster />
+            <Analytics />
           </ThemeProvider>
         </body>
       </html>

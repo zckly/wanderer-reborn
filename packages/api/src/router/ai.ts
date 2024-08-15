@@ -1,7 +1,14 @@
 import type { TRPCRouterRecord } from "@trpc/server";
-import type { CoreAssistantMessage, CoreUserMessage } from "ai";
-import { anthropic } from "@ai-sdk/anthropic";
 import { openai } from "@ai-sdk/openai";
+// const fireworks = createOpenAI({
+//   apiKey: process.env.FIREWORKS_API_KEY ?? "",
+//   baseURL: "https://api.fireworks.ai/inference/v1",
+// });
+
+// const llama3Model = fireworks(
+//   "accounts/fireworks/models/llama-v3p1-405b-instruct",
+// );
+import Anthropic from "@anthropic-ai/sdk";
 import { generateText } from "ai";
 import { z } from "zod";
 
@@ -12,14 +19,7 @@ import {
 } from "../lib/prompts/initialSimulationPrompt";
 import { publicProcedure } from "../trpc";
 
-// const fireworks = createOpenAI({
-//   apiKey: process.env.FIREWORKS_API_KEY ?? "",
-//   baseURL: "https://api.fireworks.ai/inference/v1",
-// });
-
-// const llama3Model = fireworks(
-//   "accounts/fireworks/models/llama-v3p1-405b-instruct",
-// );
+const anthropicClient = new Anthropic();
 
 export const aiRouter = {
   generateDecisionNodes: publicProcedure
@@ -46,20 +46,55 @@ export const aiRouter = {
       <friends_family_background>${friendsFamilySituation}</friends_family_background>
       <interests>${interests}</interests>`;
 
-      const prompt = initialSimulationPromptV2(userBackground, decision);
-      const { text } = await generateText({
-        model: anthropic("claude-3-5-sonnet-20240620"),
-        // model: llama3Model,
-        // model: openai("gpt-4o-mini"),
-        prompt,
+      const systemPrompt = initialSimulationPromptV2();
+      // const { text } = await generateText({
+      //   model: anthropic("claude-3-5-sonnet-20240620"),
+      //   // model: llama3Model,
+      //   // model: openai("gpt-4o-mini"),
+      //   prompt,
+      //   temperature: 1,
+      // });
+
+      const userPrompt = `Here's the user's background information:
+
+${userBackground}
+
+And the initial decision they're pondering:
+
+${decision}`;
+
+      const message = await anthropicClient.beta.promptCaching.messages.create({
+        max_tokens: 1400,
+        system: [
+          {
+            type: "text",
+            text: systemPrompt,
+            cache_control: { type: "ephemeral" },
+          },
+        ],
         temperature: 1,
+        messages: [
+          {
+            role: "user",
+            content: userPrompt,
+          },
+        ],
+        model: "claude-3-5-sonnet-20240620",
       });
+
+      const text =
+        message.content[0]?.type === "text" ? message.content[0].text : "";
+
       const { context, microDecisions, options } = simulationParser(text);
 
       const initialMessages = [
         {
+          role: "system",
+          content: systemPrompt,
+        },
+        {
           role: "user",
-          content: prompt,
+          content: userPrompt,
         },
         {
           role: "assistant",
@@ -88,17 +123,29 @@ export const aiRouter = {
     )
     .mutation(async ({ input }) => {
       const { messages } = input;
-      const { text } = await generateText({
-        model: anthropic("claude-3-5-sonnet-20240620"),
-        // model: openai("gpt-4o-mini"),
-        // model: llama3Model,
-        // model: openai("gpt-4o"),
-        messages: messages.map((m) => ({
-          role: m.role,
-          content: m.content,
-        })) as (CoreUserMessage | CoreAssistantMessage)[],
+      const systemMessages = messages
+        .filter((m) => m.role === "system")
+        .map((m) => ({
+          cache_control: { type: "ephemeral" } as const,
+          type: "text" as const,
+          text: m.content,
+        }));
+      const message = await anthropicClient.beta.promptCaching.messages.create({
+        max_tokens: 4096,
         temperature: 1,
+        system: systemMessages,
+        messages: messages
+          .filter((m) => m.role !== "system")
+          .map((m) => ({
+            role: m.role as "user" | "assistant",
+            content: m.content,
+          })),
+        model: "claude-3-5-sonnet-20240620",
       });
+
+      const text =
+        message.content[0]?.type === "text" ? message.content[0].text : "";
+
       const { context, microDecisions, options } = simulationParser(text);
       console.log("Parsed outcome:", {
         context,

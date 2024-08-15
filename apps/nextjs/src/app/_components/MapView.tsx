@@ -90,10 +90,11 @@ const MapView = () => {
         // proOptions={{ hideAttribution: true }}
       >
         <MiniMap position={"bottom-left"} />
+        <div className="nodrag absolute left-4 top-4 z-50">
+          <CanvasInfo />
+        </div>
       </ReactFlow>
-      <div className="absolute left-4 top-4">
-        <CanvasInfo />
-      </div>
+
       <div className="absolute right-4 top-4">
         {workSituation && livingSituation && friendsAndFamily && interests && (
           <SettingsSheet

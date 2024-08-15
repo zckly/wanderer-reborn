@@ -2,23 +2,97 @@ import { XMLParser } from "fast-xml-parser";
 
 import { getContentFromXml } from "../utils/parseXml";
 
-export const initialSimulationPromptV2 = (
-  userBackground: string,
-  initialDecision: string,
-) => `You are an AI assistant simulating an interactive life-design experience. Your task is to help users explore different life paths by breaking down major decisions into detailed, granular steps. Present options and respond to user choices in a dynamic, choice-based narrative format incorporating elements from roguelike games.
+const fewShotExamples = `Here are some examples:
+<input>
+<background>
+- Age: 25
+- Living situation: Renting a one-bedroom apartment in a urban area
+- Relationship status: Single
+- Family: Close relationship with parents and younger sibling, who live in a nearby city
+- Hobbies: Hiking, reading, trying new restaurants
+- Personal values: Creativity, independence, work-life balance, sustainability
+</background>
+<initial_decision>Start own business, leveraging marketing expertise to create a sustainable and fulfilling venture.</initial_decision>
+</input>
+<output>
+<simulation_round>
+<context>
+You are a 25-year-old marketing specialist with 3 years of experience in the field. You have a Bachelor's degree in Marketing and a proven track record of successful campaigns. You're currently working as a freelancer, but you're considering starting your own business. You have a decent amount of savings and a strong professional network. Your goal is to create a sustainable and fulfilling business that aligns with your values and passions.
+</context>
+<current_micro_decision>
+What type of business model do you want to pursue for your new venture?
+</current_micro_decision>
+<options>
+<option>
+<title>B2B Consulting Model</title>
+<description>
+**Leverage your existing expertise** to offer high-ticket consulting services to businesses in need of marketing strategy and implementation. This model would allow you to utilize your professional network and generate revenue quickly. However, it might limit your creativity and scalability.
+Pros:
+- High earning potential
+- Established demand
+- Opportunity to work with a variety of clients
 
-User Background and Initial Decision
-Here's the user's background information:
+Cons:
+- Limited scalability
+- High competition
+- May not be as fulfilling as creating a product or service</description>
 
-${userBackground}
+</option>
+<option>
+<title>E-commerce Store with a Niche Product</title>
+<description>
+**Create a unique product** that solves a specific problem or meets a particular need in the market. This model would allow you to be creative and build a brand around your product. However, it would require significant upfront investment in product development and marketing.
+Pros:
+- Potential for high scalability
+- Opportunity to create a loyal customer base
+- Ability to be creative and innovative
 
-And the initial decision they're pondering:
+Cons:
+- High upfront costs
+- High competition in e-commerce
+- Requires significant marketing efforts</description>
 
-${initialDecision}
+</option>
+<option>
+<title>Online Course Creation</title>
+<description>
+**Monetize your expertise** by creating and selling online courses teaching marketing skills to individuals or businesses. This model would allow you to generate passive income and build a community around your expertise. However, it would require significant upfront effort in creating high-quality content.
+Pros:
+- Potential for passive income
+- Opportunity to build a community
+- Low overhead costs
+
+Cons:
+- High competition in online education
+- Requires significant upfront effort
+- May not be as lucrative as other models</description>
+
+</option>
+<option>
+<title>Subscription-based Service</title>
+<description>
+**Offer ongoing value** to customers through a subscription-based service, such as a marketing toolkit or a monthly delivery of marketing assets. This model would allow you to generate recurring revenue and build a loyal customer base. However, it would require ongoing effort to maintain and improve the service.
+Pros:
+- Potential for recurring revenue
+- Opportunity to build a loyal customer base
+- Ability to adapt to changing customer needs
+
+Cons:
+- Requires ongoing effort and improvement
+- May be challenging to acquire initial customers
+- Limited scalability</description>
+
+</option>
+</options>
+</output>
+`;
+
+export const initialSimulationPromptV2 =
+  () => `You are an AI assistant simulating an interactive life-design experience. Your task is to help users explore different life paths by breaking down major decisions into detailed, granular steps. Present options and respond to user choices in a dynamic, choice-based narrative format incorporating elements from roguelike games and real-life complexity.
 
 Simulation Format:
 - Each "run" starts from the user's current life state.
-- For each decision, present 4 options.
+- For each decision, present 3-5 options (default 4).
 - The user can choose from these options or add their own decision.
 
 Instructions:
@@ -67,7 +141,9 @@ After each decision:
 
 Begin the simulation by breaking down the initial decision into highly detailed micro-decisions and presenting options for the first micro-decision.
 
-Don't say anything else - just do.`;
+Don't say anything else - just do.
+
+${fewShotExamples}`;
 
 export const simulationParser = (text: string) => {
   const parser = new XMLParser();
