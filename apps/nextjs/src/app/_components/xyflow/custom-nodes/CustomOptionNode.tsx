@@ -5,7 +5,7 @@ import { Handle, Position } from "@xyflow/react";
 import { MotionNodeWrapper } from "~/components/MotionNodeWrapper";
 import { useNodeStore } from "~/hooks/useNodeStore";
 import { api } from "~/trpc/react";
-import { createNewNodesAndEdges } from "~/utils/nodeUtils";
+import { createOrUpdateNodesAndEdges } from "~/utils/nodeUtils";
 import MotionPopover from "../../../../components/MotionPopover";
 
 interface CustomOptionNodeProps {
@@ -95,8 +95,8 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
           (node) => node.id === selectedCustomOptionNodeId,
         );
 
-        const { newNodes, newEdges } = createNewNodesAndEdges({
-          nodes: groupedNodes,
+        const { updatedNodes, newEdges } = createOrUpdateNodesAndEdges({
+          existingNodes: groupedNodes,
           rightMostPositionX: maxRightPosition,
           context,
           microDecisions,
@@ -105,7 +105,7 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
           isInitialDecision: false,
         });
 
-        setNodes([...groupedNodes, ...newNodes]);
+        setNodes([...updatedNodes]);
         setEdges([...edges, ...newEdges]);
       } catch (error) {
         console.error("Error in onOptionAdded:", error);

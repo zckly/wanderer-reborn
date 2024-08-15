@@ -4,7 +4,7 @@ import { Handle, Position } from "@xyflow/react";
 import { MotionNodeWrapper } from "~/components/MotionNodeWrapper";
 import { useNodeStore } from "~/hooks/useNodeStore";
 import { api } from "~/trpc/react";
-import { createNewNodesAndEdges } from "~/utils/nodeUtils";
+import { createOrUpdateNodesAndEdges } from "~/utils/nodeUtils";
 import MotionDialog from "../../../../components/MotionDialog";
 
 interface OptionNodeProps {
@@ -75,8 +75,8 @@ function OptionNode({ data }: OptionNodeProps) {
         (node) => node.type === "option" && node.data.label === title,
       );
 
-      const { newNodes, newEdges } = createNewNodesAndEdges({
-        nodes: groupedNodes,
+      const { updatedNodes, newEdges } = createOrUpdateNodesAndEdges({
+        existingNodes: groupedNodes,
         rightMostPositionX,
         context,
         microDecisions,
@@ -85,7 +85,7 @@ function OptionNode({ data }: OptionNodeProps) {
         isInitialDecision: false,
       });
 
-      setNodes([...groupedNodes, ...newNodes]);
+      setNodes([...updatedNodes]);
       setEdges([...edges, ...newEdges]);
       setOutcomeGenerated(true);
     },

@@ -1,14 +1,12 @@
 import type { Edge, Node } from "@xyflow/react";
 
-import { randomId } from "~/lib/utils/randomId";
-
-interface Option {
+export interface Option {
   title: string;
   description: string;
 }
 
-interface CreateNodesAndEdgesParams {
-  nodes: Node[];
+export interface CreateNodesAndEdgesParams {
+  existingNodes: Node[];
   rightMostPositionX: number;
   context: string;
   microDecisions: string;
@@ -17,81 +15,130 @@ interface CreateNodesAndEdgesParams {
   isInitialDecision: boolean;
 }
 
-export const createNewNodesAndEdges = ({
-  nodes,
+export const createOrUpdateNodesAndEdges = ({
+  existingNodes,
   rightMostPositionX,
   context,
   microDecisions,
   options,
   selectedOptionNode,
   isInitialDecision = false,
-}: CreateNodesAndEdgesParams): { newNodes: Node[]; newEdges: Edge[] } => {
-  const customOptionNodeId = `custom-option-node-${randomId()}`;
+}: CreateNodesAndEdgesParams): { updatedNodes: Node[]; newEdges: Edge[] } => {
+  console.log("Creating/updating nodes and edges with params:", {
+    existingNodes,
+    rightMostPositionX,
+    context,
+    microDecisions,
+    options,
+    selectedOptionNode,
+    isInitialDecision,
+  });
+
   const baseX = isInitialDecision
     ? rightMostPositionX
-    : rightMostPositionX + 500;
+    : rightMostPositionX + 300; // Reduced from 500 to 300
+  let updatedNodes: Node[] = [...existingNodes];
+  const newEdges: Edge[] = [];
 
-  const newNodes: Node[] = [
-    {
-      id: `decision-node-${nodes.length}`,
-      type: "context",
-      data: { label: context },
-      position: { x: baseX, y: -85 },
-    },
-    {
-      id: `micro-decision-node-${nodes.length + 1}`,
-      type: "microDecision",
-      data: { label: microDecisions },
-      position: { x: baseX + 700, y: -25 },
-    },
-    ...options.map(({ title, description }, index) => ({
-      id: `option-node-${nodes.length + 2 + index}`,
-      type: "option",
-      data: { label: title, description },
-      position: { x: baseX + 1250, y: -350 + index * 200 },
-    })),
-    {
-      id: customOptionNodeId,
-      type: "customOption",
-      data: {},
-      position: {
-        x: baseX + 1250,
-        y: -250 + options.length * 200,
-      },
-    },
-  ];
+  const getOrCreateNode = (
+    type: string,
+    data: Record<string, unknown>,
+    position: { x: number; y: number },
+    index?: number,
+  ): Node => {
+    const nodeId =
+      index !== undefined ? `${type}-node-${index}` : `${type}-node`;
+    const existingNode = updatedNodes.find((node) => node.id === nodeId);
+    if (existingNode) {
+      existingNode.data = { ...existingNode.data, ...data };
+      return existingNode;
+    } else {
+      const newNode: Node = {
+        id: nodeId,
+        type,
+        data,
+        position,
+      };
+      updatedNodes.push(newNode);
+      return newNode;
+    }
+  };
 
-  const newEdges: Edge[] = [
-    // Only add this edge if it's not the initial decision
-    ...(!isInitialDecision && selectedOptionNode
-      ? [
-          {
-            id: `eoption-node-outcome-option-${nodes.length + 1}`,
-            source: selectedOptionNode.id,
-            target: `decision-node-${nodes.length}`,
-            animated: true,
-          },
-        ]
-      : []),
-    {
-      id: `edecision-micro-option-${nodes.length + 2}`,
-      source: `decision-node-${nodes.length}`,
-      target: `micro-decision-node-${nodes.length + 1}`,
-      animated: true,
-    },
-    ...options.map((_, index) => ({
-      id: `eoption-node-${nodes.length + 3 + index}`,
-      source: `micro-decision-node-${nodes.length + 1}`,
-      target: `option-node-${nodes.length + 2 + index}`,
-      animated: true,
-    })),
-    {
-      id: `eoption-node-custom-option-${nodes.length + 2 + options.length}`,
-      source: `micro-decision-node-${nodes.length + 1}`,
-      target: customOptionNodeId,
-      animated: true,
-    },
-  ];
+  const addEdge = (source: string, target: string) => {
+    const edgeExists = newEdges.some(
+      (edge) => edge.source === source && edge.target === target,
+    );
+    if (!edgeExists) {
+      newEdges.push({
+        id: `e${source}-${target}`,
+        source,
+        target,
+        animated: true,
+      });
+    }
+  };
 
-  return { newNodes, newEdges };
+  if (context) {
+    const contextNode = getOrCreateNode(
+      "context",
+      { label: context },
+      { x: baseX, y: -85 },
+    );
+
+    if (microDecisions) {
+      const microDecisionNode = getOrCreateNode(
+        "microDecision",
+        { label: microDecisions },
+        { x: baseX + 300, y: -25 }, // Reduced from 700 to 300
+      );
+      addEdge(contextNode.id, microDecisionNode.id);
+    }
+  }
+
+  // Remove existing option nodes
+  updatedNodes = updatedNodes.filter(
+    (node) => !node.id.startsWith("option-node-"),
+  );
+
+  // Create or update option nodes
+  options.forEach(({ title, description }, index) => {
+    if (title && description) {
+      const optionNode = getOrCreateNode(
+        "option",
+        { label: title, description },
+        { x: baseX + 600, y: -200 + index * 150 }, // Reduced from 1250 to 600, and adjusted Y spacing
+        index,
+      );
+      if (microDecisions) {
+        const microDecisionNode = updatedNodes.find(
+          (node) => node.type === "microDecision",
+        );
+        if (microDecisionNode) {
+          addEdge(microDecisionNode.id, optionNode.id);
+        }
+      }
+    }
+  });
+
+  // Only add or update custom option node if we have context, microDecisions, and at least one regular option
+  if (context && microDecisions && options.length > 0) {
+    const customOptionNode = getOrCreateNode(
+      "customOption",
+      {},
+      { x: baseX + 600, y: -200 + options.length * 150 }, // Positioned after the last regular option
+    );
+    const microDecisionNode = updatedNodes.find(
+      (node) => node.type === "microDecision",
+    );
+    if (microDecisionNode) {
+      addEdge(microDecisionNode.id, customOptionNode.id);
+    }
+  }
+
+  if (!isInitialDecision && selectedOptionNode && updatedNodes[0]) {
+    addEdge(selectedOptionNode.id, updatedNodes[0].id);
+  }
+
+  console.log("Returning updated nodes and edges:", { updatedNodes, newEdges });
+  return { updatedNodes, newEdges };
 };
