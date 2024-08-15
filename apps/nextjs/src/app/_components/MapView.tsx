@@ -96,14 +96,12 @@ const MapView = () => {
       </ReactFlow>
 
       <div className="absolute right-4 top-4">
-        {workSituation && livingSituation && friendsAndFamily && interests && (
-          <SettingsSheet
-            workSituation={workSituation}
-            livingSituation={livingSituation}
-            friendsAndFamily={friendsAndFamily}
-            interests={interests}
-          />
-        )}
+        <SettingsSheet
+          workSituation={workSituation}
+          livingSituation={livingSituation}
+          friendsAndFamily={friendsAndFamily}
+          interests={interests}
+        />
       </div>
 
       <OnboardingDialog
