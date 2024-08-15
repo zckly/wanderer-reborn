@@ -77,7 +77,7 @@ export const SettingsSheet = ({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <div className="absolute right-4 top-4">
+        <div className="absolute right-2 top-2">
           <Button size="icon" variant="ghost">
             <EllipsisVertical className="h-4 w-4" />
           </Button>

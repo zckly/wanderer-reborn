@@ -23,6 +23,7 @@
     "@acme/validators": "workspace:*",
     "@ai-sdk/anthropic": "^0.0.28",
     "@ai-sdk/openai": "^0.0.35",
+    "@anthropic-ai/sdk": "^0.26.0",
     "@clerk/nextjs": "^5.2.14",
     "@trpc/server": "11.0.0-rc.441",
     "@xmldom/xmldom": "^0.8.10",
