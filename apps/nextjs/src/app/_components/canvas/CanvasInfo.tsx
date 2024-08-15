@@ -30,7 +30,15 @@ export function CanvasInfo() {
     messages,
     selectedOptions,
   } = useNodeStore();
-  const { fitView, setViewport } = useReactFlow();
+  const { setViewport } = useReactFlow();
+
+  function resetViewport() {
+    void setViewport({
+      x: 250,
+      y: 300,
+      zoom: 1,
+    });
+  }
 
   function handleCreateNewCanvas() {
     // Add existing canvas to previous canvases
@@ -47,11 +55,7 @@ export function CanvasInfo() {
     setMessages([]);
     setSelectedOptions([]);
     setCanvasTitle("");
-    void setViewport({
-      x: 200,
-      y: 0,
-      zoom: 1,
-    });
+    resetViewport();
   }
   // function handleRenameCanvas() {
   //   // TODO: show a modal to rename the canvas
@@ -70,11 +74,7 @@ export function CanvasInfo() {
     setMessages([]);
     setSelectedOptions([]);
     setCanvasTitle("");
-    void setViewport({
-      x: 200,
-      y: -200,
-      zoom: 1,
-    });
+    resetViewport();
   }
   function onPreviousCanvasClick(canvas: Canvas) {
     setNodes(canvas.nodes);
