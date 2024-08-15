@@ -1,3 +1,4 @@
+import { useReactFlow } from "@xyflow/react";
 import { ChevronDown, Plus, Trash2 } from "lucide-react";
 
 import {
@@ -29,6 +30,7 @@ export function CanvasInfo() {
     messages,
     selectedOptions,
   } = useNodeStore();
+  const { fitView, setViewport } = useReactFlow();
 
   function handleCreateNewCanvas() {
     // Add existing canvas to previous canvases
@@ -45,6 +47,11 @@ export function CanvasInfo() {
     setMessages([]);
     setSelectedOptions([]);
     setCanvasTitle("");
+    void setViewport({
+      x: 200,
+      y: 0,
+      zoom: 1,
+    });
   }
   // function handleRenameCanvas() {
   //   // TODO: show a modal to rename the canvas
@@ -63,6 +70,11 @@ export function CanvasInfo() {
     setMessages([]);
     setSelectedOptions([]);
     setCanvasTitle("");
+    void setViewport({
+      x: 200,
+      y: -200,
+      zoom: 1,
+    });
   }
   function onPreviousCanvasClick(canvas: Canvas) {
     setNodes(canvas.nodes);
@@ -86,7 +98,7 @@ export function CanvasInfo() {
           <ChevronDown className="h-4 w-4" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" className="w-[300px]">
+      <DropdownMenuContent side="bottom" className="nodrag w-[300px]">
         <DropdownMenuGroup>
           {/* <DropdownMenuItem onClick={handleRenameCanvas}>
             <Pencil className="mr-2 h-4 w-4" />
@@ -97,6 +109,7 @@ export function CanvasInfo() {
             Delete
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuLabel>Previous canvases</DropdownMenuLabel>
           {previousCanvases.map((canvas, index) => (
