@@ -347,6 +347,9 @@ importers:
       fast-xml-parser:
         specifier: ^4.4.0
         version: 4.4.0
+      notdiamond:
+        specifier: ^0.3.2
+        version: 0.3.2
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -551,7 +554,7 @@ importers:
         version: 7.34.3(eslint@9.6.0)
       eslint-plugin-react-hooks:
         specifier: rc
-        version: 5.1.0-rc-49496d49-20240814(eslint@9.6.0)
+        version: 5.1.0-rc-19bd26be-20240815(eslint@9.6.0)
       eslint-plugin-turbo:
         specifier: ^2.0.6
         version: 2.0.6(eslint@9.6.0)
@@ -4229,8 +4232,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
 
-  eslint-plugin-react-hooks@5.1.0-rc-49496d49-20240814:
-    resolution: {integrity: sha512-A5hwoU0WxNLjuPa9vH0+4Sh+GOcfBIgZJ0cbwu9UECyD8VbIv+N3all4yyHqFQqcz10qzoHHLSuRFE4O7AC5PQ==}
+  eslint-plugin-react-hooks@5.1.0-rc-19bd26be-20240815:
+    resolution: {integrity: sha512-ZfRFl05f62HZra++udScYiLMhkH67/agk/s9eru5qCn/gXbGEIvhCH/25zp9pfIK8gl8zlNIYqo1A5Hu2rzOFQ==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
@@ -6021,6 +6024,10 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+
+  notdiamond@0.3.2:
+    resolution: {integrity: sha512-4kU1Bc366SydqqGOWdXbAWdJC44W+oFXkhCO6gUd9XalJ43DMXpJn63i6ko/+0HsP8HAcO/s2JH5XgbAn6E3WQ==}
+    engines: {node: '>=20', npm: '>=8'}
 
   npm-package-arg@7.0.0:
     resolution: {integrity: sha512-xXxr8y5U0kl8dVkz2oK7yZjPBvqM2fwaO5l3Yg13p03v8+E3qQcD0JNhHzjL1vyGgxcKkD0cco+NLR72iuPk3g==}
@@ -12383,7 +12390,7 @@ snapshots:
       safe-regex-test: 1.0.3
       string.prototype.includes: 2.0.0
 
-  eslint-plugin-react-hooks@5.1.0-rc-49496d49-20240814(eslint@9.6.0):
+  eslint-plugin-react-hooks@5.1.0-rc-19bd26be-20240815(eslint@9.6.0):
     dependencies:
       eslint: 9.6.0
 
@@ -14678,6 +14685,10 @@ snapshots:
   node-stream-zip@1.15.0: {}
 
   normalize-path@3.0.0: {}
+
+  notdiamond@0.3.2:
+    dependencies:
+      dotenv: 16.4.5
 
   npm-package-arg@7.0.0:
     dependencies:
