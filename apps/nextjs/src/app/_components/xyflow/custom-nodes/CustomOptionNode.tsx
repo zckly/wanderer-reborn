@@ -66,9 +66,9 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
               },
               position: {
                 x: node.position.x,
-                y: node.data.label === title ? -37 : -35,
+                y: -35,
               },
-              zIndex: node.data.label === title ? 20 : 0,
+              zIndex: 0,
             };
             return optionNode;
           }

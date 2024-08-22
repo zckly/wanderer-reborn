@@ -37,29 +37,26 @@ function OptionNode({ data }: OptionNodeProps) {
       setSelectedOptions([...selectedOptions, title]);
 
       let rightMostPositionX = 0;
-      const groupedNodes = nodes.map((node) => {
-        if (node.type === "option" || node.type === "customOption") {
-          rightMostPositionX = Math.max(rightMostPositionX, node.position.x);
-          return {
-            ...node,
-            position: {
-              x: node.position.x,
-              y: node.data.label === title ? -37 : -35,
-            },
-            data: {
-              ...node.data,
-              rotation: Math.random() * 2 - 1,
-            },
-            zIndex:
-              node.type === "customOption"
-                ? 0
-                : node.data.label === title
-                  ? 20
-                  : 0,
-          };
-        }
-        return node;
-      });
+      const groupedNodes = nodes
+        .filter((node) => node.type !== "customOption")
+        .map((node) => {
+          if (node.type === "option") {
+            rightMostPositionX = Math.max(rightMostPositionX, node.position.x);
+            return {
+              ...node,
+              position: {
+                x: node.position.x,
+                y: node.data.label === title ? -37 : -35,
+              },
+              data: {
+                ...node.data,
+                rotation: Math.random() * 2 - 1,
+              },
+              zIndex: node.data.label === title ? 20 : 0,
+            };
+          }
+          return node;
+        });
       setNodes(groupedNodes);
 
       setIsGenerating(true);

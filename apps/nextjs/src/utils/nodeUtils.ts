@@ -36,19 +36,19 @@ export const createNewNodesAndEdges = ({
       id: `decision-node-${nodes.length}`,
       type: "context",
       data: { label: context },
-      position: { x: baseX, y: -85 },
+      position: { x: baseX, y: -60 },
     },
     {
       id: `micro-decision-node-${nodes.length + 1}`,
       type: "microDecision",
       data: { label: microDecisions },
-      position: { x: baseX + 700, y: -25 },
+      position: { x: baseX + 700, y: -30 },
     },
     ...options.map(({ title, description }, index) => ({
       id: `option-node-${nodes.length + 2 + index}`,
       type: "option",
       data: { label: title, description },
-      position: { x: baseX + 1250, y: -350 + index * 200 },
+      position: { x: baseX + 1250, y: -350 + index * 150 },
     })),
     {
       id: customOptionNodeId,
@@ -56,7 +56,7 @@ export const createNewNodesAndEdges = ({
       data: {},
       position: {
         x: baseX + 1250,
-        y: -250 + options.length * 200,
+        y: -300 + options.length * 150,
       },
     },
   ];
