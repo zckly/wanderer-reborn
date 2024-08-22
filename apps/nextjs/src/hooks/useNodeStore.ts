@@ -28,6 +28,9 @@ const selector = (state: AppState) => ({
   setFriendsFamilySituation: state.friendsAndFamilySituation,
   interests: state.interests,
   setInterests: state.setInterests,
+
+  isGenerating: state.isGenerating,
+  setIsGenerating: state.setIsGenerating,
 });
 
 export const useNodeStore = () => useStore(useShallow(selector));
@@ -57,4 +60,6 @@ export interface NodeStoreState {
   setFriendsFamilySituation: (friendsFamilySituation: string) => void;
   interests: string;
   setInterests: (interests: string) => void;
+  isGenerating: boolean;
+  setIsGenerating: (isGenerating: boolean) => void;
 }

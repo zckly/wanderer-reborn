@@ -25,8 +25,9 @@ function OptionNode({ data }: OptionNodeProps) {
     setMessages,
     setSelectedOptions,
     selectedOptions,
+    isGenerating,
+    setIsGenerating,
   } = useNodeStore();
-  const [isGenerating, setIsGenerating] = useState(false);
   const [outcomeGenerated, setOutcomeGenerated] = useState(false);
 
   const { mutateAsync: generateOutcomeAndNewDecision } =
@@ -96,6 +97,7 @@ function OptionNode({ data }: OptionNodeProps) {
       setMessages,
       setSelectedOptions,
       selectedOptions,
+      setIsGenerating,
     ],
   );
 
