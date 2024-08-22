@@ -188,4 +188,18 @@ ${decision}`;
         text,
       };
     }),
+  generateSummary: publicProcedure
+    .input(
+      z.object({
+        messages: z.array(
+          z.object({
+            role: z.string(),
+            content: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { messages } = input;
+    }),
 } satisfies TRPCRouterRecord;

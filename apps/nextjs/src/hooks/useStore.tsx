@@ -39,11 +39,29 @@ const useStore = create<AppState>()(
           edges: addEdge(connection, get().edges),
         });
       },
-      setNodes: (nodes) => {
-        set({ nodes });
+      setNodes: (nodesOrUpdater) => {
+        set((state) => {
+          const newNodes =
+            typeof nodesOrUpdater === "function"
+              ? nodesOrUpdater(state.nodes)
+              : nodesOrUpdater;
+          if (newNodes !== state.nodes) {
+            return { nodes: newNodes };
+          }
+          return state;
+        });
       },
-      setEdges: (edges) => {
-        set({ edges });
+      setEdges: (edgesOrUpdater) => {
+        set((state) => {
+          const newEdges =
+            typeof edgesOrUpdater === "function"
+              ? edgesOrUpdater(state.edges)
+              : edgesOrUpdater;
+          if (newEdges !== state.edges) {
+            return { edges: newEdges };
+          }
+          return state;
+        });
       },
       messages: [],
       setMessages: (messages) => set({ messages }),

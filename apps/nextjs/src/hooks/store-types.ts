@@ -24,8 +24,10 @@ export interface AppState {
   onNodesChange: OnNodesChange<AppNode>;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: AppNode[]) => void;
-  setEdges: (edges: Edge[]) => void;
+  setNodes: (
+    nodesOrUpdater: AppNode[] | ((nodes: AppNode[]) => AppNode[]),
+  ) => void;
+  setEdges: (edgesOrUpdater: Edge[] | ((edges: Edge[]) => Edge[])) => void;
   messages: { role: string; content: string }[];
   setMessages: (messages: { role: string; content: string }[]) => void;
   selectedOptions: string[];
