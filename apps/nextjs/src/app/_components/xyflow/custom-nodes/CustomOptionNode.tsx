@@ -1,5 +1,5 @@
 import type { Node } from "@xyflow/react";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback } from "react";
 import { Handle, Position } from "@xyflow/react";
 
 import { MotionNodeWrapper } from "~/components/MotionNodeWrapper";
@@ -24,8 +24,9 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
     setMessages,
     setSelectedOptions,
     selectedOptions,
+    isGenerating,
+    setIsGenerating,
   } = useNodeStore();
-  const [isGenerating, setIsGenerating] = useState(false);
 
   const { mutateAsync: generateOutcomeAndNewDecision } =
     api.ai.generateOutcomeAndNewDecision.useMutation();
@@ -66,9 +67,9 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
               },
               position: {
                 x: node.position.x,
-                y: node.data.label === title ? -37 : -35,
+                y: -35,
               },
-              zIndex: node.data.label === title ? 20 : 0,
+              zIndex: 0,
             };
             return optionNode;
           }
@@ -121,6 +122,7 @@ function CustomOptionNode({ data }: CustomOptionNodeProps) {
       setMessages,
       setSelectedOptions,
       selectedOptions,
+      setIsGenerating,
     ],
   );
 

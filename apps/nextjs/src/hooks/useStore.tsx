@@ -63,6 +63,9 @@ const useStore = create<AppState>()(
         set({ friendsAndFamilySituation }),
       interests: "",
       setInterests: (interests) => set({ interests }),
+
+      isGenerating: false,
+      setIsGenerating: (isGenerating) => set({ isGenerating }),
     }),
     {
       name: "app-state-storage", // name of the item in the storage (must be unique)

@@ -87,7 +87,6 @@ const MapView = () => {
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         fitView
-        // proOptions={{ hideAttribution: true }}
       >
         <MiniMap position={"bottom-left"} />
         <div className="nodrag absolute left-4 top-4 z-50">

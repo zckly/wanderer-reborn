@@ -42,6 +42,9 @@ export interface AppState {
   setFriendsAndFamilySituation: (friendsAndFamilySituation: string) => void;
   interests: string;
   setInterests: (interests: string) => void;
+
+  isGenerating: boolean;
+  setIsGenerating: (isGenerating: boolean) => void;
 }
 
 export interface OnboardingState {

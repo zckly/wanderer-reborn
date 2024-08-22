@@ -29,6 +29,7 @@
     "@xmldom/xmldom": "^0.8.10",
     "ai": "^3.2.17",
     "fast-xml-parser": "^4.4.0",
+    "notdiamond": "^0.3.2",
     "superjson": "2.2.1",
     "unsplash-js": "^7.0.19",
     "zod": "catalog:"
