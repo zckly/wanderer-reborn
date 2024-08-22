@@ -37,24 +37,25 @@ export function OnboardingDialog({
       >
         <>
           <OnboardingHeader
-            title="wanderer"
-            description="a future life simulator"
+            title="future life simulator"
+            description="simulate those big decisions you've been thinking about"
           />
           <div className="mx-auto py-0 text-center">
             <FractalSphereAnimation />
           </div>
           <DialogFooter className="items-center !justify-between">
             <div className="flex flex-row gap-1 text-sm">
-              <Link
+              {/* <Link
                 className="hover:underline"
                 href="https://github.com/acme-labs/wanderer"
               >
                 about
               </Link>
-              <div>/</div>
+              <div>/</div> */}
               <Link
                 className="hover:underline"
-                href="https://twitter.com/acme_labs"
+                href="https://github.com/zckly/wanderer-reborn/"
+                target="_blank"
               >
                 github
               </Link>

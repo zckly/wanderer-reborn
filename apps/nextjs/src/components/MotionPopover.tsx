@@ -97,10 +97,14 @@ export default function MotionPopover({
                 </svg>
                 Thinking...
               </div>
-            ) : mode === "decision" ? (
-              "(Add decision)"
             ) : (
-              "(Add option)"
+              <motion.span
+                initial={{ opacity: 1 }}
+                animate={{ opacity: isOpen ? 0 : 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                {mode === "decision" ? "(Add decision)" : "(Add option)"}
+              </motion.span>
             )}
           </motion.span>
         </motion.button>
@@ -123,6 +127,9 @@ export default function MotionPopover({
               >
                 <motion.span
                   layoutId={`popover-label-${uniqueId}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: note ? 0 : 1 }}
+                  transition={{ duration: 0.2 }}
                   aria-hidden="true"
                   style={{
                     opacity: note ? 0 : 1,
