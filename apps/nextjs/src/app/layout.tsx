@@ -18,21 +18,21 @@ import { env } from "~/env";
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
+      ? "https://life.wanderer.space"
       : "http://localhost:3000",
   ),
-  title: "wanderer",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "future life simulator",
+  description: "explore future possibilities",
   openGraph: {
-    title: "wanderer",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "wanderer",
+    title: "future life simulator",
+    description: "explore future possibilities",
+    url: "https://life.wanderer.space",
+    siteName: "future life simulator",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    site: "@wenquai",
+    creator: "@wenquai",
   },
 };
 
